@@ -1,14 +1,16 @@
 {
   "name": "moleculer-demo",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "My Moleculer-based microservices project",
   "scripts": {
-    "dev": "moleculer-runner --repl --hot services/**/*.service.js",
-    "start": "moleculer-runner",
+    "build": "babel src -d dist",
+    "dev": "babel-node ./node_modules/moleculer/bin/moleculer-runner.js --repl --hot src/services/**/*.service.js",
+    "start": "moleculer-runner dist/services",
     "cli": "moleculer connect TCP",
     "ci": "jest --watch",
     "test": "jest --coverage",
-    "lint": "eslint services",
+    "lint": "eslint src",
     "dc:up": "docker-compose up --build -d",
     "dc:logs": "docker-compose logs -f",
     "dc:down": "docker-compose down"
@@ -19,16 +21,23 @@
   ],
   "author": "",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
     "moleculer-repl": "^0.6.2"
   },
   "dependencies": {
-    "moleculer-web": "^0.9.0",
+    "@babel/runtime": "^7.8.7",
+    "moleculer": "^0.14.0",
     "moleculer-db": "^0.8.4",
     "moleculer-db-adapter-mongo": "^0.4.7",
-    "moleculer": "^0.14.0"
+    "moleculer-web": "^0.9.0"
   },
   "engines": {
     "node": ">= 10.x.x"

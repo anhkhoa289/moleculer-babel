@@ -1,14 +1,22 @@
-FROM node:current-alpine
-
-ENV NODE_ENV=production
+FROM node:current-alpine AS base
 
 RUN mkdir /app
 WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json yarn.lock ./
 
-COPY package.json package-lock.json ./
+# Building
+FROM base AS builder
 
-RUN npm install --production
-
+RUN yarn install
 COPY . .
+RUN yarn build
 
-CMD ["npm", "start"]
+# Release
+FROM base AS release
+
+ENV NODE_ENV production
+RUN yarn install --prod
+COPY --from=builder /app/dist ./dist
+
+CMD ["yarn", "start"]

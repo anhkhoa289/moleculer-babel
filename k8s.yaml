@@ -8,7 +8,7 @@ metadata:
 data:
   NAMESPACE: ""
   LOGLEVEL: info
-  SERVICEDIR: services
+  SERVICEDIR: dist/services
   
   
   
