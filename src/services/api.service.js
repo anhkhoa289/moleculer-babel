@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 import ApiGateway from 'moleculer-web'
 import { Service } from 'moleculer'
 
@@ -10,7 +10,7 @@ import { Service } from 'moleculer'
 
 export default (broker) => {
 	return new Service(broker, {
-		name: "api",
+		name: 'api',
 		mixins: [ApiGateway],
 
 		// More info about settings: https://moleculer.services/docs/0.14/moleculer-web.html
@@ -19,17 +19,17 @@ export default (broker) => {
 			port: process.env.PORT || 3000,
 
 			// Exposed IP
-			ip: "0.0.0.0",
+			ip: '0.0.0.0',
 
 			// Global Express middlewares. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Middlewares
 			use: [],
 
 			routes: [
 				{
-					path: "/api",
+					path: '/api',
 
 					whitelist: [
-						"**"
+						'**'
 					],
 
 					// Route-level Express middlewares. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Middlewares
@@ -62,7 +62,7 @@ export default (broker) => {
 					 * 
 					onBeforeCall(ctx, route, req, res) {
 						// Set request headers to context meta
-						ctx.meta.userAgent = req.headers["user-agent"];
+						ctx.meta.userAgent = req.headers['user-agent']
 					}, */
 
 					/**
@@ -74,7 +74,7 @@ export default (broker) => {
 					 * @param {Object} data
 					onAfterCall(ctx, route, req, res, data) {
 						// Async function which return with Promise
-						return doSomething(ctx, res, data);
+						return doSomething(ctx, res, data)
 					}, */
 
 					// Calling options. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Calling-options
@@ -83,16 +83,16 @@ export default (broker) => {
 					bodyParsers: {
 						json: {
 							strict: false,
-							limit: "1MB"
+							limit: '1MB'
 						},
 						urlencoded: {
 							extended: true,
-							limit: "1MB"
+							limit: '1MB'
 						}
 					},
 
 					// Mapping policy setting. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Mapping-policy
-					mappingPolicy: "all", // Available values: "all", "restrict"
+					mappingPolicy: 'all', // Available values: 'all', 'restrict'
 
 					// Enable/disable logging
 					logging: true
@@ -101,15 +101,15 @@ export default (broker) => {
 
 			// Do not log client side errors (does not log an error response when the error.code is 400<=X<500)
 			log4XXResponses: false,
-			// Logging the request parameters. Set to any log level to enable it. E.g. "info"
+			// Logging the request parameters. Set to any log level to enable it. E.g. 'info'
 			logRequestParams: null,
-			// Logging the response data. Set to any log level to enable it. E.g. "info"
+			// Logging the response data. Set to any log level to enable it. E.g. 'info'
 			logResponseData: null,
 
 
-			// Serve assets from "public" folder. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Serve-static-files
+			// Serve assets from 'public' folder. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Serve-static-files
 			assets: {
-				folder: "public",
+				folder: 'public',
 
 				// Options to `server-static` module
 				options: {}
@@ -132,25 +132,25 @@ export default (broker) => {
 			 */
 			async authenticate(ctx, route, req) {
 				// Read the token from header
-				const auth = req.headers["authorization"];
+				const auth = req.headers['authorization']
 
-				if (auth && auth.startsWith("Bearer")) {
-					const token = auth.slice(7);
+				if (auth && auth.startsWith('Bearer')) {
+					const token = auth.slice(7)
 
 					// Check the token. Tip: call a service which verify the token. E.g. `accounts.resolveToken`
-					if (token == "123456") {
+					if (token == '123456') {
 						// Returns the resolved user. It will be set to the `ctx.meta.user`
-						return { id: 1, name: "John Doe" };
+						return { id: 1, name: 'John Doe' }
 
 					} else {
 						// Invalid token
-						throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_INVALID_TOKEN);
+						throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_INVALID_TOKEN)
 					}
 
 				} else {
 					// No token. Throw an error or do nothing if anonymous access is allowed.
-					// throw new E.UnAuthorizedError(E.ERR_NO_TOKEN);
-					return null;
+					// throw new E.UnAuthorizedError(E.ERR_NO_TOKEN)
+					return null
 				}
 			},
 
@@ -166,14 +166,14 @@ export default (broker) => {
 			 */
 			async authorize(ctx, route, req) {
 				// Get the authenticated user.
-				const user = ctx.meta.user;
+				const user = ctx.meta.user
 
 				// It check the `auth` property in action schema.
-				if (req.$action.auth == "required" && !user) {
-					throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS");
+				if (req.$action.auth == 'required' && !user) {
+					throw new ApiGateway.Errors.UnAuthorizedError('NO_RIGHTS')
 				}
-			}
+			},
 
-		}
+		},
 	})
 }

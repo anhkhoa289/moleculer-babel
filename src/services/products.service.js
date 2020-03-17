@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 import { Service } from 'moleculer'
 
-const DbMixin = require("../mixins/db.mixin");
+import DbMixin from '../mixins/db.mixin'
 
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
@@ -9,13 +9,13 @@ const DbMixin = require("../mixins/db.mixin");
 
 export default (broker) => {
 	return new Service(broker, {
-		name: "products",
+		name: 'products',
 		// version: 1
 
 		/**
 		 * Mixins
 		 */
-		mixins: [DbMixin("products")],
+		mixins: [DbMixin('products')],
 
 		/**
 		 * Settings
@@ -23,16 +23,16 @@ export default (broker) => {
 		settings: {
 			// Available fields in the responses
 			fields: [
-				"_id",
-				"name",
-				"quantity",
-				"price"
+				'_id',
+				'name',
+				'quantity',
+				'price'
 			],
 
 			// Validator for the `create` & `insert` actions.
 			entityValidator: {
-				name: "string|min:3",
-				price: "number|positive"
+				name: 'string|min:3',
+				price: 'number|positive'
 			}
 		},
 
@@ -48,7 +48,7 @@ export default (broker) => {
 				 * @param {Context} ctx
 				 */
 				create(ctx) {
-					ctx.params.quantity = 0;
+					ctx.params.quantity = 0
 				}
 			}
 		},
@@ -58,7 +58,7 @@ export default (broker) => {
 		 */
 		actions: {
 			/**
-			 * The "moleculer-db" mixin registers the following actions:
+			 * The 'moleculer-db' mixin registers the following actions:
 			 *  - list
 			 *  - find
 			 *  - count
@@ -74,17 +74,17 @@ export default (broker) => {
 			 * Increase the quantity of the product item.
 			 */
 			increaseQuantity: {
-				rest: "PUT /:id/quantity/increase",
+				rest: 'PUT /:id/quantity/increase',
 				params: {
-					id: "string",
-					value: "number|integer|positive"
+					id: 'string',
+					value: 'number|integer|positive'
 				},
 				async handler(ctx) {
-					const doc = await this.adapter.updateById(ctx.params.id, { $inc: { quantity: ctx.params.value } });
-					const json = await this.transformDocuments(ctx, ctx.params, doc);
-					await this.entityChanged("updated", json, ctx);
+					const doc = await this.adapter.updateById(ctx.params.id, { $inc: { quantity: ctx.params.value } })
+					const json = await this.transformDocuments(ctx, ctx.params, doc)
+					await this.entityChanged('updated', json, ctx)
 
-					return json;
+					return json
 				}
 			},
 
@@ -92,18 +92,18 @@ export default (broker) => {
 			 * Decrease the quantity of the product item.
 			 */
 			decreaseQuantity: {
-				rest: "PUT /:id/quantity/decrease",
+				rest: 'PUT /:id/quantity/decrease',
 				params: {
-					id: "string",
-					value: "number|integer|positive"
+					id: 'string',
+					value: 'number|integer|positive'
 				},
 				/** @param {Context} ctx  */
 				async handler(ctx) {
-					const doc = await this.adapter.updateById(ctx.params.id, { $inc: { quantity: -ctx.params.value } });
-					const json = await this.transformDocuments(ctx, ctx.params, doc);
-					await this.entityChanged("updated", json, ctx);
+					const doc = await this.adapter.updateById(ctx.params.id, { $inc: { quantity: -ctx.params.value } })
+					const json = await this.transformDocuments(ctx, ctx.params, doc)
+					await this.entityChanged('updated', json, ctx)
 
-					return json;
+					return json
 				}
 			}
 		},
@@ -119,10 +119,10 @@ export default (broker) => {
 			 */
 			async seedDB() {
 				await this.adapter.insertMany([
-					{ name: "Samsung Galaxy S10 Plus", quantity: 10, price: 704 },
-					{ name: "iPhone 11 Pro", quantity: 25, price: 999 },
-					{ name: "Huawei P30 Pro", quantity: 15, price: 679 },
-				]);
+					{ name: 'Samsung Galaxy S10 Plus', quantity: 10, price: 704 },
+					{ name: 'iPhone 11 Pro', quantity: 25, price: 999 },
+					{ name: 'Huawei P30 Pro', quantity: 15, price: 679 },
+				])
 			}
 		},
 
@@ -130,7 +130,7 @@ export default (broker) => {
 		 * Fired after database connection establishing.
 		 */
 		async afterConnected() {
-			// await this.adapter.collection.createIndex({ name: 1 });
-		}
+			// await this.adapter.collection.createIndex({ name: 1 })
+		},
 	})
 }

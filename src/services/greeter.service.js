@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 import { Service } from 'moleculer'
 
 /**
@@ -7,7 +7,7 @@ import { Service } from 'moleculer'
 
 export default (broker) => {
 	return new Service(broker, {
-		name: "greeter",
+		name: 'greeter',
 
 		/**
 		 * Settings
@@ -33,11 +33,11 @@ export default (broker) => {
 			 */
 			hello: {
 				rest: {
-					method: "GET",
-					path: "/hello"
+					method: 'GET',
+					path: '/hello'
 				},
 				async handler() {
-					return "Hello Moleculer";
+					return 'Hello Moleculer'
 				}
 			},
 
@@ -47,13 +47,13 @@ export default (broker) => {
 			 * @param {String} name - User name
 			 */
 			welcome: {
-				rest: "/welcome",
+				rest: '/welcome',
 				params: {
-					name: "string"
+					name: 'string'
 				},
 				/** @param {Context} ctx  */
 				async handler(ctx) {
-					return `Welcome, ${ctx.params.name}`;
+					return `Welcome, ${ctx.params.name}`
 				}
 			}
 		},
@@ -91,6 +91,6 @@ export default (broker) => {
 		 */
 		async stopped() {
 
-		}
+		},
 	})
 }

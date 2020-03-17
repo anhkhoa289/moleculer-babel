@@ -21,11 +21,11 @@ module.exports = {
         ],
         "quotes": [
             "warn",
-            "double"
+            "single"
         ],
         "semi": [
             "error",
-            "always"
+            "never"
         ],
         "no-var": [
             "error"
